@@ -15,16 +15,6 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<script type="text/javascript">
-// ctrl+u (onkeypress Mozilla_Safari, onkeyup Safari)
-function ctrlU (event){
-    var code=event.keyCode ? event.keyCode : event.which ? event.which : null;
-    if (event.ctrlKey){
-    if (code == 117) return false;
-    if (code == 85) return false;
-    }
-}
-</script>
 	</head>
 	<body class="loading">
 		<div id="wrapper">
@@ -84,6 +74,5 @@ void main() {
 </script>
   <script src='https://terabaud.github.io/hello-webgl/glutz.js'></script>
   <script  src="js/index.js"></script>	
-	<body onkeydown="return ctrlU(event)">
 	</body>
 </html>
