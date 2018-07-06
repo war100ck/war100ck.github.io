@@ -1,0 +1,244 @@
+	h1 {
+	font-size: 30px;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: 300;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+
+/* цвет сылки в колонке */
+
+a {
+	color: #FF0000;
+	text-decoration: none
+}
+
+a:active {
+	color: #FF0000;
+	text-decoration: none
+}
+
+a:visited {
+	color: #666666;
+	text-decoration: none
+}
+
+a:hover {
+	color: #339900;
+	text-decoration: underline
+}
+
+
+/* шрифт первой колонки */
+
+p2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: italic;
+	font-size: 30px;
+}
+
+
+/* шрифт 3 колонки */
+
+p1 {
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	font-style: italic
+}
+
+table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.tbl-header {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.tbl-content {
+	height: 344px;
+	width: 99.9%;
+	/* ширина таблицы */
+	overflow-x: auto;
+	margin-top: 0%;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+	padding: 20px 15px;
+	text-align: left;
+	font-weight: 500;
+	font-size: 12px;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+td {
+	padding: 10px;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 12px;
+	color: #fff;
+	border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body {
+	background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+	background: linear-gradient(to right, #25c481, #25b7c4);
+	font-family: 'Roboto', sans-serif;
+}
+
+section {
+	margin: 50px;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.copied {
+	position: fixed;
+	right: 5px;
+	top: 3%;
+	width: 90%;
+	height: 160px;
+	display: block;
+	color: green;
+	display: none;
+}
+
+button {
+	color: #fff;
+	/* цвет текста */
+	text-decoration: none;
+	/* убирать подчёркивание у ссылок */
+	user-select: none;
+	/* убирать выделение текста */
+	background: rgb(102, 211, 180);
+	/* фон кнопки */
+	padding: .2em .5em;
+	/* отступ от текста */
+	outline: none;
+	border: none;
+	/* убирать контур в Mozilla */
+}
+
+button:hover {
+	background: rgb(37, 189, 166);
+}
+
+
+/* при наведении курсора мышки */
+
+button:active {
+	background: rgb(152, 15, 0);
+}
+
+
+/* при нажатии */
+
+
+/* нижний блок с информацией */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body,
+html {
+	height: 100%;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.container p {
+	top: 30px;
+	position: relative;
+	width: 100%;
+	padding: 5px;
+}
+
+
+/* Подвал */
+
+footer {
+	position: fixed;
+	/* Фиксированное положение */
+	top: 870px;
+	left: 0;
+	bottom: 0;
+	/* Левый нижний угол */
+	padding: 10px;
+	/* Поля вокруг текста */
+	color: #fff;
+	/* Цвет текста */
+	width: 100%;
+	/* Ширина слоя */
+	padding: 10px 0;
+	text-align: center;
+}
+
+footer a {
+	color: #70726F;
+	font-size: 30px;
+	padding: 10px;
+	border-right: 1px solid #70726F;
+	transition: all .5s ease;
+}
+
+footer a:first-child {
+	border-left: 1px solid #70726F;
+}
+
+footer a:hover {
+	color: white;
+}
+
+#footer {
+	position: fixed;
+	/* Фиксированное положение */
+	top: 920px;
+	right: 30px;
+	width: auto;
+	height: auto;
+	color: #fff;
+}
+
+
+/* показ html кода */
+
+.ex {
+	border: dashed 1px #634F36;
+	background: #fffff5;
+	font-family: "Courier New", Courier, monospace;
+	padding: 7px;
+	font-size: 80%;
+	margin: 0 0 1em;
+}
+
+
+/* Жирный шрифт */
+
+b {
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: bold;
+	font-size: 18px;
+	font-style: inherit

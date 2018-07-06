@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>ASF Commands</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 2. Include library -->
+    <script src="dist/clipboard.min.js"></script>
+    <script src="dist/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <script>
+      var clip = new Clipboard('.btn');
+      
+      clip.on('success', function(e) {
+      $('.copied').show();
+      $('.copied').fadeOut(1000);
+      });
+    </script>
+    <p2><span class="copied">Скопировано!</span></p2>
+    <!--for demo wrap-->
+    <div class="tbl-header">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+          <tr>
+            <th>Commands</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+ <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+         <tr>
+     <td><p><input id="foo" type="text" value="!2fa&nbsp;">&nbsp;<button class="btn" data-clipboard-target="#foo">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Generates temporary&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;token for curren bot instances.</p1></td>
+    </tr>
+    <tr>
+     <td><p><input id="foo1" type="text" value="!2fa <Bots>&nbsp;">&nbsp;<button class="btn" data-clipboard-target="#foo1">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Generates temporary&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;token for given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo2" type="text" value="!2fano&nbsp;">&nbsp;<button class="btn" data-clipboard-target="#foo2">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Denies all pending&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;confirmations for current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo3" type="text" value="!2fano &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo3">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Denies all pending&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;confirmations for given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo4" type="text" value="!2faok">&nbsp;<button class="btn" data-clipboard-target="#foo4">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Accepts all pending&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;confirmations for current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo5" type="text" value="!2faok &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo5">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Accepts all pending&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Escrow">2FA</a></strong>&nbsp;confirmations for given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo6" type="text" value="!addlicense &lt;GameIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo6">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Activates given&nbsp;appIDs&nbsp;(Steam Network) or&nbsp;subIDs&nbsp;(Steam Store) on current bot instance (free games only).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo7" type="text" value="!addlicense &lt;Bots&gt; &lt;GameIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo7">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Activates given&nbsp;appIDs&nbsp;(Steam Network) or&nbsp;subIDs&nbsp;(Steam Store) on given bot instances (free games only).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo8" type="text" value="!bl">&nbsp;<button class="btn" data-clipboard-target="#foo8">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists blacklisted users from trading module of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo9" type="text" value="!bl &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo9">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists blacklisted users from trading module of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo10" type="text" value="!bladd &lt;SteamIDs64&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo10">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Blacklists given&nbsp;steamIDs&nbsp;from trading module of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo11" type="text" value="!bladd &lt;Bots&gt; &lt;SteamIDs64&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo11">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Blacklists given&nbsp;steamIDs&nbsp;from trading module of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo12" type="text" value="!blrm &lt;SteamIDs64&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo12">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes blacklist of given&nbsp;steamIDs&nbsp;from trading module of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo13" type="text" value="!blrm &lt;Bots&gt; &lt;SteamIDs64&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo13">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes blacklist of given&nbsp;steamIDs&nbsp;from trading module of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo14" type="text" value="!exit">&nbsp;<button class="btn" data-clipboard-target="#foo14">Copy</button></p></td>
+     <td>Owner</td>
+     <td><p1>Stops whole ASF process.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo15" type="text" value="!farm">&nbsp;<button class="btn" data-clipboard-target="#foo15">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Restarts cards farming module for current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo16" type="text" value="!farm &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo16">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Restarts cards farming module for given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo17" type="text" value="!help">&nbsp;<button class="btn" data-clipboard-target="#foo17">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Shows help (link to this page).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo18" type="text" value="!input &lt;Type&gt; &lt;Value&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo18">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sets given input type to given value for current bot instance, works only in&nbsp;Headless&nbsp;mode - further explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#input-command">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo19" type="text" value="!input &lt;Bots&gt; &lt;Type&gt; &lt;Value&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo19">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sets given input type to given value for given bot instances, works only in&nbsp;Headless&nbsp;mode - further explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#input-command">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo20" type="text" value="!ib">&nbsp;<button class="btn" data-clipboard-target="#foo20">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists apps blacklisted from automatic idling of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo21" type="text" value="!ib &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo21">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists apps blacklisted from automatic idling of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo22" type="text" value="!ibadd &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo22">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Adds given&nbsp;appIDs&nbsp;to apps blacklisted from automatic idling of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo23" type="text" value="!ibadd &lt;Bots&gt; &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo23">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Adds given&nbsp;appIDs&nbsp;to apps blacklisted from automatic idling of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo24" type="text" value="!ibrm &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo24">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes given&nbsp;appIDs&nbsp;from apps blacklisted from automatic idling of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo25" type="text" value="!ibrm &lt;Bots&gt; &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo25">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes given&nbsp;appIDs&nbsp;from apps blacklisted from automatic idling of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo26" type="text" value="!iq">&nbsp;<button class="btn" data-clipboard-target="#foo26">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists priority idling queue of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo27" type="text" value="!iq &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo27">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Lists priority idling queue of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo28" type="text" value="!iqadd &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo28">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Adds given&nbsp;appIDs&nbsp;to priority idling queue of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo29" type="text" value="!iqadd &lt;Bots&gt; &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo29">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Adds given&nbsp;appIDs&nbsp;to priority idling queue of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo30" type="text" value="!iqrm &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo30">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes given&nbsp;appIDs&nbsp;from priority idling queue of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo31" type="text" value="!iqrm &lt;Bots&gt; &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo31">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Removes given&nbsp;appIDs&nbsp;from priority idling queue of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo32" type="text" value="!leave">&nbsp;<button class="btn" data-clipboard-target="#foo32">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Makes current bot instance leave the group chat. For obvious reasons, this command works only in group chats.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo33" type="text" value="!leave &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo33">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Makes given bot instances leave the group chat. For obvious reasons, this command works only in group chats.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo34" type="text" value="!loot">&nbsp;<button class="btn" data-clipboard-target="#foo34">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sends all&nbsp;MatchableTypes&nbsp;items of current bot instance to&nbsp;Master&nbsp;user defined in its&nbsp;SteamUserPermissions&nbsp;(with lowest steamID if more than one).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo35" type="text" value="!loot &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo35">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sends all&nbsp;MatchableTypes&nbsp;items of given bot instances to&nbsp;Master&nbsp;user defined in their&nbsp;SteamUserPermissions&nbsp;(with lowest steamID if more than one).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo36" type="text" value="!nickname &lt;Nickname&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo36">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Changes Steam nickname of current bot instance to given&nbsp;nickname.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo37" type="text" value="!nickname &lt;Bots&gt; &lt;Nickname&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo37">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Changes Steam nickname of given bot instances to given&nbsp;nickname.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo38" type="text" value="!owns &lt;AppIDsOrGameNames&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo38">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Checks if current bot instance already owns given&nbsp;appIDs&nbsp;and/or&nbsp;gameNames&nbsp;(can be part of the game's name). It can also be&nbsp;*&nbsp;to show all games available.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo39" type="text" value="!owns &lt;Bots&gt; &lt;AppIDsOrGameNames&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo39">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Checks if given bot instances already own given&nbsp;appIDs&nbsp;and/or&nbsp;gameNames&nbsp;(can be part of the game's name). It can also be&nbsp;*&nbsp;to show all games available.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo40" type="text" value="!password">&nbsp;<button class="btn" data-clipboard-target="#foo40">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Prints encrypted password of current bot instance (in use with&nbsp;PasswordFormat).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo41" type="text" value="!password &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo41">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Prints encrypted password of given bot instances (in use with&nbsp;PasswordFormat).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo42" type="text" value="!pause">&nbsp;<button class="btn" data-clipboard-target="#foo42">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Permanently pauses automatic cards farming module of current bot instance. ASF will not attempt to farm current account in this session, unless you manually&nbsp;!resume&nbsp;it, or restart the process. Also called sticky pause.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo43" type="text" value="!pause &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo43">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Permanently pauses automatic cards farming module of given bot instances. ASF will not attempt to farm current account in this session, unless you manually&nbsp;!resume&nbsp;it, or restart the process. Also called sticky pause.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo44" type="text" value="!pause~">&nbsp;<button class="btn" data-clipboard-target="#foo44">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Temporarily pauses automatic cards farming module of current bot instance. Farming will be automatically resumed on the next playing event, or bot disconnect. You can&nbsp;!resume&nbsp;farming to unpause it.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo45" type="text" value="!pause~ &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo45">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Temporarily pauses automatic cards farming module of given bot instances. Farming will be automatically resumed on the next playing event, or bot disconnect. You can&nbsp;!resume&nbsp;farming to unpause it.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo46" type="text" value="!pause&amp; &lt;Seconds&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo46">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Temporarily pauses automatic cards farming module of current bot instance for given amount of&nbsp;seconds. After delay, cards farming module is automatically resumed.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo47" type="text" value="!pause&amp; &lt;Bots&gt; &lt;Seconds&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo47">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Temporarily pauses automatic cards farming module of given bot instances for given amount of&nbsp;seconds. After delay, cards farming module is automatically resumed.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo48" type="text" value="!play &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo48">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Switches to manual farming - launches given&nbsp;appIDs&nbsp;on current bot instance. Use&nbsp;!resume&nbsp;for returning to automatic farming.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo49" type="text" value="!play &lt;Bots&gt; &lt;AppIDs&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo49">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Switches to manual farming - launches given&nbsp;appIDs&nbsp;on given bot instances. Use&nbsp;!resume&nbsp;for returning to automatic farming.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo50" type="text" value="!redeem &lt;Keys&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo50">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Redeems given&nbsp;cd-keys&nbsp;on current bot instance. !redeem XXXXX-XXXXX-XXXXX,XXXXX-XXXXX-XXXXX,XXXXX-XXXXX-XXXXX,XXXXX-XXXXX-XXXXX,XXXXX-XXXXX-XXXXX,...</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo51" type="text" value="!redeem &lt;Bots&gt; &lt;Keys&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo51">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Redeems given&nbsp;cd-keys&nbsp;on given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo52" type="text" value="!redeem^ &lt;Modes&gt; &lt;Keys&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo52">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Redeems given&nbsp;cd-keys&nbsp;on current bot instance, using given&nbsp;modes&nbsp;explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#redeem-modes">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo53" type="text" value="!redeem^ &lt;Bots&gt; &lt;Modes&gt; &lt;Keys&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo53">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Redeems given&nbsp;cd-keys&nbsp;on given bot instances, using given&nbsp;modes&nbsp;explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#redeem-modes">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo54" type="text" value="!rejoinchat">&nbsp;<button class="btn" data-clipboard-target="#foo54">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Forces current bot instance to rejoin its&nbsp;SteamMasterClanID&nbsp;group chat.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo55" type="text" value="!rejoinchat &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo55">Copy</button></p></td>
+     <td>Operator</td>
+     <td><p1>Forces given bot instances to rejoin their&nbsp;SteamMasterClanID&nbsp;group chat.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo56" type="text" value="!restart">&nbsp;<button class="btn" data-clipboard-target="#foo56">Copy</button></p></td>
+     <td>Owner</td>
+     <td><p1>Restarts ASF process.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo57" type="text" value="!resume">&nbsp;<button class="btn" data-clipboard-target="#foo57">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Resumes automatic farming of current bot instance. Also see&nbsp;!pause,&nbsp;!play.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo58" type="text" value="!resume &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo58">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Resumes automatic farming of given bot instances. Also see&nbsp;!pause,&nbsp;!play.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo59" type="text" value="!start &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo59">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Starts given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo60" type="text" value="!stats">&nbsp;<button class="btn" data-clipboard-target="#foo60">Copy</button></p></td>
+     <td>Owner</td>
+     <td><p1>Prints process statistics, such as managed memory usage.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo61" type="text" value="!status">&nbsp;<button class="btn" data-clipboard-target="#foo61">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Prints status of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo62" type="text" value="!status &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo62">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Prints status of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo63" type="text" value="!stop">&nbsp;<button class="btn" data-clipboard-target="#foo63">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Stops current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo64" type="text" value="!stop &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo64">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Stops given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo65" type="text" value="!transfer &lt;Modes&gt; &lt;Bot&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo65">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sends from current bot instance to given&nbsp;botinstance, all inventory items of that are matching given&nbsp;modes, explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#transfer-modes">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo66" type="text" value="!transfer &lt;Bots&gt; &lt;Modes&gt; &lt;Bot&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo66">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Sends from given bot instances to given&nbsp;botinstance, all inventory items of that are matching given&nbsp;modes, explained&nbsp;<strong><a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/Commands#transfer-modes">below</a></strong>.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo67" type="text" value="!unpack">&nbsp;<button class="btn" data-clipboard-target="#foo67">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Unpacks all booster packs stored in the inventory of current bot instance.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo68" type="text" value="!unpack &lt;Bots&gt;">&nbsp;<button class="btn" data-clipboard-target="#foo68">Copy</button></p></td>
+     <td>Master</td>
+     <td><p1>Unpacks all booster packs stored in the inventory of given bot instances.</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo69" type="text" value="!update">&nbsp;<button class="btn" data-clipboard-target="#foo69">Copy</button></p></td>
+     <td>Owner</td>
+     <td><p1>Checks GitHub for ASF updates (this is done automatically every 24 hours if&nbsp;AutoUpdates).</p1></td>
+    </tr>
+    <tr>
+	<td><p><input id="foo70" type="text" value="!version">&nbsp;<button class="btn" data-clipboard-target="#foo70">Copy</button></p></td>
+     <td>FamilySharing</td>
+     <td><p1>Prints version of ASF.</p1></td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="container">
+      <!-- Любой код -->
+      <div>
+        <center>
+          <p><b>Integration of ASF commands in the Web <a href="https://github.com/JustArchi/ArchiSteamFarm/wiki/IPC#" target="_blank title="IPC ASF">IPC ASF</a>.</b></p>
+        </center>
+        <p>Installation Instructions:</p>
+        <p>Open the file <b>command.html</b> by the path: <b>..\ASF-win-x64\www\pages\</b> and find the line:</p>
+        <p>
+        <p class="ex">&lt;button title=&quot;Send command&quot; type=&quot;button&quot; class=&quot;btn btn-default&quot; id=&quot;sendCommand&quot;&gt;&lt;i class=&quot;far fa-paper-plane&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br />
+        <p>Copy the code below:</p>
+        <p>
+        <p class="ex">&lt;iframe src=&quot;https://war100ck.github.io/asf/&quot; width=&quot;1642&quot; height=&quot;400&quot; align=&quot;left&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowtransparency=&quot;true&quot; onload=&quot;window.parent.scrollTo(0,0)&quot; style=&quot;width: 100%; height: 400px; border: none;&quot;&gt;&lt;/iframe&gt;<br />	
+        <p>Insert the code between the 4th <b>&lt;/div&gt;</b> and <b>&lt;/section&gt;</b>:</p>
+        <p>
+        <p class="ex">&lt;button title=&quot;Send command&quot; type=&quot;button&quot; class=&quot;btn btn-default&quot; id=&quot;sendCommand&quot;&gt;&lt;i class=&quot;far fa-paper-plane&quot;&gt;&lt;/i&gt;&lt;/button&gt;<br />
+          &lt;/div&gt;<br />
+          &lt;/div&gt;<br />
+          &lt;/div&gt;<br />
+          &lt;/div&gt;<br />
+          <font color="red">&lt;iframe src=&quot;https://war100ck.github.io/asf/&quot; width=&quot;1642&quot; height=&quot;400&quot; align=&quot;left&quot; scrolling=&quot;no&quot; frameborder=&quot;0&quot; allowtransparency=&quot;true&quot; onload=&quot;window.parent.scrollTo(0,0)&quot; style=&quot;width: 100%; height: 400px; border: none;&quot;&gt;&lt;/iframe&gt;</font></br>
+          &lt;/section&gt;<br />
+          &lt;/div&gt;<br />
+		<p>
+		<p>  In the file <b>app.css</b> by the path: <b>..\ASF-win-x64\www\css\</b> add the code to the bottom of the script:<p>
+		<p class="ex"> iframe {width: 100%;}
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <a href="https://war100ck.github.io/"target="_blank"><i class="fa fa-address-card-o"></i></a>
+        <a href="https://www.facebook.com/ruslan.trubnikov"target="_blank"><i class="fa fa-facebook"></i></a>
+        <a href="../images/qrcode.jpg"target="_blank"><i class="fa fa-barcode"></i></a>
+        <a href="https://steamcommunity.com/id/war100ck/"target="_blank"><i class="fa fa-steam"></i></a>
+        <a href="skype:war100ck1?call"><i class="fa fa-skype"></i></a>
+      </div>
+    </footer>
+    <div id="footer">
+      &copy; 2017 WAR100CK
+    </div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
