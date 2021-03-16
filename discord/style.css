@@ -34,19 +34,23 @@
 :root {
 	--theme-name: "Tera";
   --theme-version: "0.1";
-   --background-image: url('https://clearvision.gitlab.io/images/sapphire.jpg');
-  --background-shading: 100%;
-  --background-position: center;
-  --background-size: cover;
-  --background-repeat: no-repeat;
-  --background-attachment: fixed;
-  --background-brightness: 100%;
-  --background-contrast: 100%;
-  --background-saturation: 100%;
-  --background-grayscale: 0%;
-  --background-invert: 0%;
-  --background-blur: 0px;
-  --background-overlay: rgba(0,0,0,0.6);
+  --blurple: rgb(113, 136, 217);
+  --greyple: rgb(151, 168, 180);
+  --blurple-sheer: rgba(114, 137, 218, 0.267);
+  --greyple-sheer: rgba(151, 168, 180, 0.267);
+  --black-hole: url(https://i.imgur.com/7XKIo8a.jpg);
+  --stars: url(https://www.freeiconspng.com/uploads/twinkle-star-png-stars-9.png);
+  --roundness: 50px;
+  --uno: rgb(25, 25, 27);
+  /* primary background color */
+  --dos: rgb(30, 30, 33);
+  /* secondary background color */
+  --tres: rgb(35, 35, 39);
+  /* tertiary background color */
+  --quatro: rgb(16, 16, 17);
+  /* quaternary background color */
+  --sheer: rgba(0,0,0,0.6);
+  --veil: rgba(100, 100, 100, 0.2);
 
 
   --online: rgb(67, 181, 129);
