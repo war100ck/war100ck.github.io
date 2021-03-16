@@ -34,43 +34,22 @@
 :root {
 	--theme-name: "Tera";
   --theme-version: "0.1";
-  --blurple: rgb(113, 136, 217);
-  --greyple: rgb(151, 168, 180);
-  --blurple-sheer: rgba(114, 137, 218, 0.267);
-  --greyple-sheer: rgba(151, 168, 180, 0.267);
-  --black-hole: url(https://i.imgur.com/7XKIo8a.jpg);
-  --stars: url(https://www.freeiconspng.com/uploads/twinkle-star-png-stars-9.png);
-  --roundness: 50px;
-  --uno: rgb(25, 25, 27);
-  /* primary background color */
-  --dos: rgb(30, 30, 33);
-  /* secondary background color */
-  --tres: rgb(35, 35, 39);
-  /* tertiary background color */
-  --quatro: rgb(16, 16, 17);
-  /* quaternary background color */
-  --sheer: rgba(0,0,0,0.6);
-  --veil: rgba(100, 100, 100, 0.2);
-
-
-  --online: rgb(67, 181, 129);
-  --online-sheer: rgba(67, 181, 129, 0.267);
-  /* color for online status */
-  --idle: rgb(250, 166, 26);
-  --idle-sheer: #faa61a44;
-  /* color for idle status */
-  --dnd: rgb(240, 71, 71);
-  --dnd-sheer: rgba(240, 71, 71, 0.267);
-  /* color for dnd status */
-  --offline: rgb(99, 107, 117);
-  --offline-sheer: rgba(99, 107, 117, 0.267);
-  /* color for offline status */
-  --invisi: rgb(116, 127, 141);
-  --invisi-sheer: rgba(116, 127, 141, 0.267);
-  /* color for invisible status - Note this will only show for your own invisibility */
-  --streaming: rgb(100, 61, 167);
-  --streaming-sheer: rgba(100, 61, 167, 0.267);
-  /* color for streaming status */
+  --bg: url(https://i.imgur.com/2WHzMbs.jpg); /* background for the whole window. */
+    --bg-overlay: rgba(0, 0, 0, 0.8); /* overlay for the background, intended for darkening the picture to make text more readable. */
+    --accent: #900; /* prominent color in the UI */
+    --accent-bright: #f00; /* color of mention text and other miscellaneous text */
+    --accent-back: rgba(255, 0, 0, 0.15); /* mention background color and other miscellaneous items */
+    --accent-back-bright: rgba(255, 0, 0, 0.4); /* mention background while hovering & bot tag background */
+    --icon-color: rgba(250, 166, 26, 0.5); /* color of channel icons, home tab icons, etc. */
+    --link-color: #faa61a; /* color of all links */
+    --link-color-hover: #fad61a; /* color of all links while hovering */
+    --popup-background: #222; /* background of modals and popouts */
+    --popup-highlight: #333; /* color of headers and footers of modals and popouts */
+    --unread-color: var(--accent-bright); /* color of unread/selected server indicators. */
+    --typing-height: 25px; /* height of typing element and margin underneath chat to allow space for it. */
+    --gift-button: none; /* nitro gift button in chat */
+    --gif-picker: flex; /* gif picker button in chat */
+    --discovery: flex; /* server discovery button under server list */
 
 }
 
