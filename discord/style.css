@@ -34,11 +34,7 @@
 :root {
 	--theme-name: "Tera";
   --theme-version: "0.1";
-  --blurple: rgb(113, 136, 217);
-  --greyple: rgb(151, 168, 180);
-  --blurple-sheer: rgba(114, 137, 218, 0.267);
-  --greyple-sheer: rgba(151, 168, 180, 0.267);
-    --background-image: url('https://clearvision.gitlab.io/images/sapphire.jpg');
+  --background-image: url('https://clearvision.gitlab.io/images/sapphire.jpg');
   --background-shading: 100%;
   --background-position: center;
   --background-size: cover;
@@ -51,38 +47,6 @@
   --background-invert: 0%;
   --background-blur: 0px;
   --background-overlay: rgba(0,0,0,0.6);
-  --stars: url(https://www.freeiconspng.com/uploads/twinkle-star-png-stars-9.png);
-  --roundness: 50px;
-  --uno: rgb(25, 25, 27);
-  /* primary background color */
-  --dos: rgb(30, 30, 33);
-  /* secondary background color */
-  --tres: rgb(35, 35, 39);
-  /* tertiary background color */
-  --quatro: rgb(16, 16, 17);
-  /* quaternary background color */
-  --sheer: rgba(0,0,0,0.6);
-  --veil: rgba(100, 100, 100, 0.2);
-
-
-  --online: rgb(67, 181, 129);
-  --online-sheer: rgba(67, 181, 129, 0.267);
-  /* color for online status */
-  --idle: rgb(250, 166, 26);
-  --idle-sheer: #faa61a44;
-  /* color for idle status */
-  --dnd: rgb(240, 71, 71);
-  --dnd-sheer: rgba(240, 71, 71, 0.267);
-  /* color for dnd status */
-  --offline: rgb(99, 107, 117);
-  --offline-sheer: rgba(99, 107, 117, 0.267);
-  /* color for offline status */
-  --invisi: rgb(116, 127, 141);
-  --invisi-sheer: rgba(116, 127, 141, 0.267);
-  /* color for invisible status - Note this will only show for your own invisibility */
-  --streaming: rgb(100, 61, 167);
-  --streaming-sheer: rgba(100, 61, 167, 0.267);
-  /* color for streaming status */
 
 }
 
