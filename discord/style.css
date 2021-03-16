@@ -149,7 +149,7 @@
 #app-mount,
 .container-16j22k,
 .perksModalContentWrapper-2HU6uL {
-  background: linear-gradient(var(--sheer), var(--sheer)),var(--black-hole) center/30% fixed;
+  background: linear-gradient(var(--sheer), var(--sheer)),var(--black-hole) center/100% fixed;
 }
 
 #app-mount .app-2rEoOp, 
@@ -445,7 +445,7 @@ a.selected-aXhQR6 .layout-2DM8Md, a.channel-2QD9_O:hover,
   width: 70px;
   display: flex;
   justify-content: center;
-  background: linear-gradient(var(--sheer), var(--sheer)),var(--black-hole) center/30% fixed;
+  background: linear-gradient(var(--sheer), var(--sheer)),var(--black-hole) center/100% fixed;
   z-index: 1;
 }
 
