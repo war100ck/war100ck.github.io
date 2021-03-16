@@ -34,7 +34,7 @@
 :root {
 	--theme-name: "Tera";
   --theme-version: "0.1";
-  --background-image: url('https://clearvision.gitlab.io/images/sapphire.jpg');
+   --background-image: url('https://clearvision.gitlab.io/images/sapphire.jpg');
   --background-shading: 100%;
   --background-position: center;
   --background-size: cover;
@@ -47,6 +47,26 @@
   --background-invert: 0%;
   --background-blur: 0px;
   --background-overlay: rgba(0,0,0,0.6);
+
+
+  --online: rgb(67, 181, 129);
+  --online-sheer: rgba(67, 181, 129, 0.267);
+  /* color for online status */
+  --idle: rgb(250, 166, 26);
+  --idle-sheer: #faa61a44;
+  /* color for idle status */
+  --dnd: rgb(240, 71, 71);
+  --dnd-sheer: rgba(240, 71, 71, 0.267);
+  /* color for dnd status */
+  --offline: rgb(99, 107, 117);
+  --offline-sheer: rgba(99, 107, 117, 0.267);
+  /* color for offline status */
+  --invisi: rgb(116, 127, 141);
+  --invisi-sheer: rgba(116, 127, 141, 0.267);
+  /* color for invisible status - Note this will only show for your own invisibility */
+  --streaming: rgb(100, 61, 167);
+  --streaming-sheer: rgba(100, 61, 167, 0.267);
+  /* color for streaming status */
 
 }
 
