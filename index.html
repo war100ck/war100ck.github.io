@@ -1,78 +1,85 @@
 <!DOCTYPE HTML>
 <!--
-	Aerial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+   Aerial by HTML5 UP
+   html5up.net | @ajlkn
+   Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+   -->
 <html>
-	<head>
-		<title>☠ ADrenaliN | WAR10CK ☠</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" href="favicon.ico" type="image/x-icon">
-                <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	</head>
-	<body class="loading">
-		<div id="wrapper">
-			<div id="bg"></div>
-			<div id="overlay"></div>
-			<div id="main">
-
-				<!-- Header -->
-					<header id="header">
-						<p><h1><div id="blink1"><div id="blink6">WAR100CK</div></div></h1>
-  <div class="connect"></div></p>
-						<nav>
-							<ul>
-								<li><a href="https://vk.com/war100ck" target="_blank" class="icon fa-vk"><span class="label">Twitter</span></a></li>
-								<li><a href="https://www.facebook.com/ruslan.trubnikov" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-								<li><a href="https://steamcommunity.com/id/war100ck/" target="_blank" class="icon fa-steam"><span class="label">Dribbble</span></a></li>
-								<li><a href="https://github.com/war100ck" target="_blank" class="icon fa-github"><span class="label">Github</span></a></li>
-								<li><a href="mailto:war100ck2008@yandex.ru" target="_blank" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-								<li><a href="qr_code/index.html" class="icon fa-qrcode"><span class="label">QR Code</span></a></li>								
-							</ul>
-						</nav>
-					</header>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<span class="copyright">&copy; 2018 : <a href="index.html">  WAR100CK </a>.</span>
-					</footer>
-
-			</div>
-		</div>
-		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-		<script>
-			window.onload = function() { document.body.className = ''; }
-			window.ontouchmove = function() { return false; }
-			window.onorientationchange = function() { document.body.scrollTop = 0; }
-		</script>
-		<script type='text/javascript' src="js/text.js"></script>
-<canvas id=a></canvas>
-<script id=fragmentShader type=x-shader/x-fragment>
-precision mediump float;
-
-uniform float time;
-uniform vec2 resolution;
-uniform vec2 mouse;
-
-void main() {
-	vec2 p = gl_FragCoord.xy / resolution;
-  gl_FragColor = vec4( vec3( p.y * sin(time+p.y*p.x+p.x), sin(p.x+p.y+time), sin(p.x+time)), 1.0 );
-}
-</script>
-<script id=vertexShader type=x-shader/x-vertex>
-attribute vec3 pos;
-
-void main() {
-	gl_Position=vec4(pos, 1.0);
-}
-</script>
-  <script src='js/glutz.js'></script>
-  <script  src="js/index.js"></script>	
-	</body>
+   <head>
+      <title>☠ ADrenaliN | WAR10CK ☠</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="favicon.ico" type="image/x-icon">
+      <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+      <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+      <link rel="stylesheet" href="assets/css/main.css" />
+      <!--[if lte IE 8]>
+      <link rel="stylesheet" href="assets/css/ie8.css" />
+      <![endif]-->
+      <!--[if lte IE 9]>
+      <link rel="stylesheet" href="assets/css/ie9.css" />
+      <![endif]-->
+   </head>
+   <body class="loading">
+      <div id="wrapper">
+         <div id="bg"></div>
+         <div id="overlay"></div>
+         <div id="main">
+            <!-- Header -->
+            <header id="header">
+               <p>
+               <h1>
+                  <div id="blink1">
+                     <div id="blink6">WAR100CK</div>
+                  </div>
+               </h1>
+               <div class="connect"></div>
+               </p>
+               <nav>
+                  <ul>
+                     <li><a href="https://vk.com/war100ck" target="_blank" class="icon fa-vk"><span class="label">Twitter</span></a></li>
+                     <li><a href="https://www.facebook.com/ruslan.trubnikov" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                     <li><a href="https://steamcommunity.com/id/war100ck/" target="_blank" class="icon fa-steam"><span class="label">Dribbble</span></a></li>
+                     <li><a href="https://github.com/war100ck" target="_blank" class="icon fa-github"><span class="label">Github</span></a></li>
+                     <li><a href="mailto:war100ck2008@yandex.ru" target="_blank" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+                     <li><a href="qr_code/index.html" class="icon fa-qrcode"><span class="label">QR Code</span></a></li>
+                  </ul>
+               </nav>
+            </header>
+            <!-- Footer -->
+            <footer id="footer">
+               <span class="copyright">&copy; 2018 : <a href="index.html">  WAR100CK </a>.</span>
+            </footer>
+         </div>
+      </div>
+      <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+      <script>
+         window.onload = function() { document.body.className = ''; }
+         window.ontouchmove = function() { return false; }
+         window.onorientationchange = function() { document.body.scrollTop = 0; }
+      </script>
+      <script type='text/javascript' src="js/text.js"></script>
+      <canvas id=a></canvas>
+      <script id=fragmentShader type=x-shader/x-fragment>
+         precision mediump float;
+         
+         uniform float time;
+         uniform vec2 resolution;
+         uniform vec2 mouse;
+         
+         void main() {
+         	vec2 p = gl_FragCoord.xy / resolution;
+           gl_FragColor = vec4( vec3( p.y * sin(time+p.y*p.x+p.x), sin(p.x+p.y+time), sin(p.x+time)), 1.0 );
+         }
+      </script>
+      <script id=vertexShader type=x-shader/x-vertex>
+         attribute vec3 pos;
+         
+         void main() {
+         	gl_Position=vec4(pos, 1.0);
+         }
+      </script>
+      <script src='js/glutz.js'></script>
+      <script  src="js/index.js"></script>	
+   </body>
 </html>
