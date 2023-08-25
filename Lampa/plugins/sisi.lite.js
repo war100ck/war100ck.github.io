@@ -16,15 +16,6 @@
       var filter = new Lampa.Filter(object);
       var filter_sources = [];
 
-      function account(url) {
-        if (url.indexOf('account_email') == -1 && url.indexOf(window.plugin_sisi_localhost.replace(/http:\/\//g, '').split('/')[0]) >= 0) {
-          var email = Lampa.Storage.get('account_email');
-          if (email) url = Lampa.Utils.addUrlComponent(url, 'account_email=' + encodeURIComponent(email));
-        }
-
-        return url;
-      }
-
       this.create = function () {
         var _this = this;
 
@@ -42,8 +33,7 @@
           filter.render().attr('style', 'padding: 0 1.2em 1.2em 1.2em; display: flex;').append(uid);
           filter.render().find('.simple-button').addClass('sisi--filter-button');
         }
-        network["native"](account(window.plugin_sisi_localhost), function (data) {
-          if (data.accsdb) return _this.empty(data.msg);
+        network["native"]('http://vi.sisi.am/', function (data) {
           filter_sources = data.channels;
           var last_url = Lampa.Storage.get('sisi_last_url', '');
 
@@ -63,20 +53,15 @@
             return a.selected;
           }).playlist_url);
         }, function () {
-          _this.empty();
+          var empty = new Empty();
+          html.append(empty.render());
+          _this.start = empty.start;
+
+          _this.activity.loader(false);
+
+          _this.activity.toggle();
         });
         return this.render();
-      };
-
-      this.empty = function (msg) {
-        var empty = new Lampa.Empty({
-          title: msg ? 'Ошибка' : '',
-          descr: msg
-        });
-        html.append(empty.render());
-        this.start = empty.start;
-        this.activity.loader(false);
-        this.activity.toggle();
       };
 
       this.clear = function () {
@@ -94,7 +79,7 @@
 
         this.activity.loader(true);
         if (url.indexOf('box_mac=') == -1) url = Lampa.Utils.addUrlComponent(url, 'box_mac=' + unic_id);else url = url.replace(/box_mac=[^&]+/, 'box_mac=' + unic_id);
-        network["native"](account(url), function (data) {
+        network["native"](url, function (data) {
           Lampa.Storage.set('sisi_last_url', url);
 
           _this2.clear();
@@ -122,7 +107,7 @@
           object.page++;
           var url = Lampa.Storage.get('sisi_last_url', '') + '';
           if (url.indexOf('pg=') >= 0) url = url.replace(/pg=\d+/, 'pg=' + object.page);else url = Lampa.Utils.addUrlComponent(url, 'pg=' + object.page);
-          network["native"](account(url), function (data) {
+          network["native"](url, function (data) {
             _this3.append(data.list);
 
             Lampa.Controller.enable('content');
@@ -139,7 +124,7 @@
             title: element.name
           });
           card.addClass('card--collection');
-          card.find('.card__img').attr('src', account(element.picture));
+          card.find('.card__img').attr('src', element.picture);
           card.find('.card__age').remove();
           if (element.quality) card.find('.card__view').append('<div class="card__quality"><div>' + element.quality + '</div></div>');
           if (element.time) card.find('.card__view').append('<div class="card__type">' + element.time + '</div>');
@@ -152,16 +137,11 @@
           card.on('hover:enter', function () {
             if (element.json) {
               if (!wait_parse_video) {
-                network["native"](account(element.video + '&json=true'), function (qualitys) {
+                network["native"](element.video + '&json=true', function (qualitys) {
                   wait_parse_video = false;
-
-                  for (var i in qualitys) {
-                    qualitys[i] = account(qualitys[i]);
-                  }
-
                   var video = {
                     title: element.name,
-                    url: account(qualitys[Lampa.Arrays.getKeys(qualitys)[0]]),
+                    url: qualitys[Lampa.Arrays.getKeys(qualitys)[0]],
                     quality: qualitys
                   };
                   Lampa.Player.play(video);
@@ -174,15 +154,9 @@
 
               wait_parse_video = true;
             } else {
-              if (element.qualitys) {
-                for (var i in element.qualitys) {
-                  element.qualitys[i] = account(element.qualitys[i]);
-                }
-              }
-
               var video = {
                 title: element.name,
-                url: account(element.video),
+                url: element.video,
                 quality: element.qualitys
               };
               Lampa.Player.play(video);
@@ -307,7 +281,6 @@
 
     function startPlugin() {
       window.plugin_sisi_ready = true;
-      window.plugin_sisi_localhost = '{localhost}';
 
       if (!Lampa.Lang) {
         var lang_data = {};
@@ -337,7 +310,7 @@
       Lampa.Component.add('sisi', Sisi);
 
       function add() {
-        var button = $("<li class=\"menu__item selector\">\n            <div class=\"menu__ico\">\n                <svg width=\"200\" height=\"243\" viewBox=\"0 0 200 243\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M187.714 130.727C206.862 90.1515 158.991 64.2019 100.983 64.2019C42.9759 64.2019 -4.33044 91.5669 10.875 130.727C26.0805 169.888 63.2501 235.469 100.983 234.997C138.716 234.526 168.566 171.303 187.714 130.727Z\" stroke=\"currentColor\" stroke-width=\"15\"/><path d=\"M102.11 62.3146C109.995 39.6677 127.46 28.816 169.692 24.0979C172.514 56.1811 135.338 64.2018 102.11 62.3146Z\" stroke=\"currentColor\" stroke-width=\"15\"/><path d=\"M90.8467 62.7863C90.2285 34.5178 66.0667 25.0419 31.7127 33.063C28.8904 65.1461 68.8826 62.7863 90.8467 62.7863Z\" stroke=\"currentColor\" stroke-width=\"15\"/><path d=\"M100.421 58.5402C115.627 39.6677 127.447 13.7181 85.2149 9C82.3926 41.0832 83.5258 35.4214 100.421 58.5402Z\" stroke=\"currentColor\" stroke-width=\"15\"/><rect x=\"39.0341\" y=\"98.644\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/><rect x=\"90.8467\" y=\"92.0388\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/><rect x=\"140.407\" y=\"98.644\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/><rect x=\"116.753\" y=\"139.22\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/><rect x=\"64.9404\" y=\"139.22\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/><rect x=\"93.0994\" y=\"176.021\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"currentColor\"/></svg>\n            </div>\n            <div class=\"menu__text\">\u041A\u043B\u0443\u0431\u043D\u0438\u0447\u043A\u0430</div>\n        </li>");
+        var button = $("<li class=\"menu__item selector\" data-action=\"sisi\">\n            <div class=\"menu__ico\">\n                <svg width=\"200\" height=\"243\" viewBox=\"0 0 200 243\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M187.714 130.727C206.862 90.1515 158.991 64.2019 100.983 64.2019C42.9759 64.2019 -4.33044 91.5669 10.875 130.727C26.0805 169.888 63.2501 235.469 100.983 234.997C138.716 234.526 168.566 171.303 187.714 130.727Z\" stroke=\"white\" stroke-width=\"15\"/><path d=\"M102.11 62.3146C109.995 39.6677 127.46 28.816 169.692 24.0979C172.514 56.1811 135.338 64.2018 102.11 62.3146Z\" stroke=\"white\" stroke-width=\"15\"/><path d=\"M90.8467 62.7863C90.2285 34.5178 66.0667 25.0419 31.7127 33.063C28.8904 65.1461 68.8826 62.7863 90.8467 62.7863Z\" stroke=\"white\" stroke-width=\"15\"/><path d=\"M100.421 58.5402C115.627 39.6677 127.447 13.7181 85.2149 9C82.3926 41.0832 83.5258 35.4214 100.421 58.5402Z\" stroke=\"white\" stroke-width=\"15\"/><rect x=\"39.0341\" y=\"98.644\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/><rect x=\"90.8467\" y=\"92.0388\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/><rect x=\"140.407\" y=\"98.644\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/><rect x=\"116.753\" y=\"139.22\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/><rect x=\"64.9404\" y=\"139.22\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/><rect x=\"93.0994\" y=\"176.021\" width=\"19.1481\" height=\"30.1959\" rx=\"9.57407\" fill=\"white\"/></svg>\n            </div>\n            <div class=\"menu__text\">\u041A\u043B\u0443\u0431\u043D\u0438\u0447\u043A\u0430</div>\n        </li>");
         button.on('hover:enter', function () {
           Lampa.Activity.push({
             url: '',
