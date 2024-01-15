@@ -13,7 +13,11 @@
 
   var hostcloud = ['https://bwa.to/cloud.js'];
 
+  var framework = 'https://bwa.pages.dev';
+  var framework_version = '?v=14012024';
+
   var plugins = ["o.js"];
+  var plugins_version = '?v=25122023';
 
   if (typeof WebAssembly == 'undefined') {
     Lampa.Utils.putScriptAsync(hostcloud, function() {});
