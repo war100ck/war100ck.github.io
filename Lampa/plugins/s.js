@@ -15,8 +15,10 @@ var host = 'https://bwa.to';
   var hostcloud = ['https://bwa.to/cloud.js'];
 
   var framework = 'https://bwa.pages.dev';
+  var framework_version = '';
 
   var plugins = ["s.js"];
+  var plugins_version = '';
 
   if (typeof WebAssembly == 'undefined' || window.blazor_error) {
     Lampa.Utils.putScriptAsync(hostcloud, function() {});
