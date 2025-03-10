@@ -97,21 +97,24 @@
         }
 
         .broadcast__scan {
-            height: 8px !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-radius: 4px !important;
-            overflow: hidden !important;
-            margin: 20px 0 !important;
-        }
+    height: 8px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    margin: 20px 0 !important;
+    position: relative;
+}
 
-        .broadcast__scan div {
-            height: 100% !important;
-            background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
-            width: 0;
-            transition: width 0.5s ease-out;
-            border-radius: 4px !important;
-        }
-
+.broadcast__scan div {
+    height: 100% !important;
+    background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
+    width: 0;
+    transition: width 0.5s ease-out;
+    border-radius: 4px !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
         /* Progress Animation */
         @keyframes scanProgress {
             0% { width: 0; }
@@ -479,31 +482,31 @@
         network.timeout(2000);
 
         var stat = function(data) {
-            if (!player) return;
-            if (data && data.Torrent) {
-                var t = data.Torrent;
-                var p = Math.floor((t.preloaded_bytes || 0) * 100 / (t.preload_size || 1));
-                
-                // Обновление прогресс-бара
-                progressBar.css('width', p + '%');
-                
-                peer.html(Lampa.Lang.translate('ts_preload_peers') + ': ' + 
-                    (t.active_peers || 0) + ' / ' + 
-                    (t.pending_peers || 0) + ' (' + 
-                    (t.total_peers || 0) + ') &bull; ' + 
-                    (t.connected_seeders || 0) + ' - ' + 
-                    Lampa.Lang.translate('ts_preload_seeds'));
-                
-                               buff.html(Lampa.Lang.translate('ts_preload_preload') + ': ' + 
-                    Lampa.Utils.bytesToSize(t.preloaded_bytes || 0) + ' / ' + 
-                    Lampa.Utils.bytesToSize(t.preload_size || 0) + ' (' + p + '%)');
-                
-                speed.text(Lampa.Lang.translate('ts_preload_speed') + ': ' + 
-                    Lampa.Utils.bytesToSize((t.download_speed || 0) * 8, true));
-            }
-            // Обновление статистики
-            network.silent(u.base_url + '/cache', stat, stat, JSON.stringify({action: 'get', hash: u.arg.link}));
-        };
+    if (!player) return;
+    if (data && data.Torrent) {
+        var t = data.Torrent;
+        var p = Math.floor((t.preloaded_bytes || 0) * 100 / (t.preload_size || 1));
+        
+        // Обновление прогресс-бара
+        progressBar.css('width', p + '%');
+        
+        peer.html(Lampa.Lang.translate('ts_preload_peers') + ': ' + 
+            (t.active_peers || 0) + ' / ' + 
+            (t.pending_peers || 0) + ' (' + 
+            (t.total_peers || 0) + ') &bull; ' + 
+            (t.connected_seeders || 0) + ' - ' + 
+            Lampa.Lang.translate('ts_preload_seeds'));
+        
+        buff.html(Lampa.Lang.translate('ts_preload_preload') + ': ' + 
+            Lampa.Utils.bytesToSize(t.preloaded_bytes || 0) + ' / ' + 
+            Lampa.Utils.bytesToSize(t.preload_size || 0) + ' (' + p + '%)');
+        
+        speed.text(Lampa.Lang.translate('ts_preload_speed') + ': ' + 
+            Lampa.Utils.bytesToSize((t.download_speed || 0) * 8, true));
+    }
+    // Обновление статистики
+    network.silent(u.base_url + '/cache', stat, stat, JSON.stringify({action: 'get', hash: u.arg.link}));
+};
 
         // Инициализация начальных значений
         stat({Torrent: {
