@@ -28,9 +28,9 @@
                 transform: scale(1);
                 opacity: 1;
             }
-            }
+        }
 
-            .modal__title {
+        .modal__title {
             font-size: 24px !important;
             color: #fff !important;
             text-align: center !important;
@@ -97,28 +97,23 @@
         }
 
         .broadcast__scan {
-    height: 8px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 4px !important;
-    overflow: hidden !important;
-    margin: 20px 0 !important;
-    position: relative;
-}
+            height: 8px !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-radius: 4px !important;
+            overflow: hidden !important;
+            margin: 20px 0 !important;
+            position: relative;
+        }
 
-.broadcast__scan div {
-    height: 100% !important;
-    background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
-    width: 0;
-    border-radius: 4px !important;
-    position: absolute;
-    left: 0;
-    top: 0;
-    transition: none; /* Убираем анимацию */
-}
-        /* Progress Animation */
-        @keyframes scanProgress {
-            0% { width: 0; }
-            100% { width: 100%; }
+        .broadcast__scan div {
+            height: 100% !important;
+            background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
+            width: 0;
+            border-radius: 4px !important;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 0.3s linear !important;
         }
     </style>
     `;
@@ -422,9 +417,17 @@
     function preload(data) {
         var u = parseUrl(data.url);
         if (!u.arg.link) return lampaPlay(data);
+        
         player = new Player(data);
         var controller = Lampa.Controller.enabled().name;
         var network = new Lampa.Reguest();
+        
+        // Состояние прогресса
+        var progressState = {
+            maxPercentage: 0,
+            lastUpdate: Date.now()
+        };
+
         var modalHtml = $('<div>' + 
             '<div class="broadcast__text">' +
                 '<span class="js-peer">&nbsp;</span>' +
@@ -433,6 +436,7 @@
             '</div>' + 
             '<div class="broadcast__scan"><div></div></div>' + 
             '</div>');
+        
         var peer = modalHtml.find('.js-peer');
         var buff = modalHtml.find('.js-buff');
         var speed = modalHtml.find('.js-speed');
@@ -481,35 +485,56 @@
         network.silent(u.clearUrl + '&preload', play, play);
         network.timeout(2000);
 
-       var stat = function(data) {
-    if (!player) return;
-    if (data && data.Torrent) {
-        var t = data.Torrent;
-        var p = Math.floor((t.preloaded_bytes || 0) * 100 / (t.preload_size || 1));
-        
-        // Фиксируем ширину, чтобы она не уменьшалась
-        var currentWidth = parseFloat(progressBar.css('width')) || 0;
-        if (p > currentWidth) {
-            progressBar.css('width', p + '%');
-        }
-        
-        peer.html(Lampa.Lang.translate('ts_preload_peers') + ': ' + 
-            (t.active_peers || 0) + ' / ' + 
-            (t.pending_peers || 0) + ' (' + 
-            (t.total_peers || 0) + ') &bull; ' + 
-            (t.connected_seeders || 0) + ' - ' + 
-            Lampa.Lang.translate('ts_preload_seeds'));
-        
-        buff.html(Lampa.Lang.translate('ts_preload_preload') + ': ' + 
-            Lampa.Utils.bytesToSize(t.preloaded_bytes || 0) + ' / ' + 
-            Lampa.Utils.bytesToSize(t.preload_size || 0) + ' (' + p + '%)');
-        
-        speed.text(Lampa.Lang.translate('ts_preload_speed') + ': ' + 
-            Lampa.Utils.bytesToSize((t.download_speed || 0) * 8, true));
-    }
-    // Обновление статистики
-    network.silent(u.base_url + '/cache', stat, stat, JSON.stringify({action: 'get', hash: u.arg.link}));
-};
+        var stat = function(data) {
+            if (!player) return;
+            
+            try {
+                if (data && data.Torrent) {
+                    var t = data.Torrent;
+                    var total = t.preload_size || 1;
+                    var loaded = t.preloaded_bytes || 0;
+                    
+                    // Защита от деления на ноль
+                    if (total <= 0) total = 1;
+                    
+                    var p = Math.min(Math.floor((loaded * 100) / total), 100);
+                    
+                    // Обновляем только если процент увеличился
+                    if (p > progressState.maxPercentage) {
+                        progressState.maxPercentage = p;
+                        progressBar.css('width', progressState.maxPercentage + '%');
+                    }
+                    
+                    // Обновление статистики
+                    peer.html(`${Lampa.Lang.translate('ts_preload_peers')}: 
+                        ${t.active_peers || 0} / 
+                        ${t.pending_peers || 0} (${t.total_peers || 0}) • 
+                        ${t.connected_seeders || 0} - 
+                        ${Lampa.Lang.translate('ts_preload_seeds')}`);
+                    
+                    buff.html(`${Lampa.Lang.translate('ts_preload_preload')}: 
+                        ${Lampa.Utils.bytesToSize(loaded)} / 
+                        ${Lampa.Utils.bytesToSize(total)} 
+                        (${progressState.maxPercentage}%)`);
+                    
+                    speed.text(`${Lampa.Lang.translate('ts_preload_speed')}: 
+                        ${Lampa.Utils.bytesToSize((t.download_speed || 0) * 8, true)}`);
+                }
+            } catch(e) {
+                console.error('Error updating stats:', e);
+            }
+            
+            // Обновление статистики не чаще чем раз в 500 мс
+            if (Date.now() - progressState.lastUpdate > 500) {
+                progressState.lastUpdate = Date.now();
+                network.silent(
+                    u.base_url + '/cache', 
+                    stat, 
+                    stat, 
+                    JSON.stringify({action: 'get', hash: u.arg.link})
+                );
+            }
+        };
 
         // Инициализация начальных значений
         stat({Torrent: {
@@ -518,7 +543,7 @@
             total_peers: 0,
             connected_seeders: 0,
             preloaded_bytes: 0,
-            preload_size: 0,
+            preload_size: 1,
             download_speed: 0
         }});
     }
