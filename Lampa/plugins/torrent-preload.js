@@ -9,128 +9,69 @@
         display: flex !important;
         align-items: center;
         justify-content: center;
-        padding: 20px !important;
+        padding: 10px !important;
     }
 
     .modal__content {
         background: linear-gradient(145deg, #1a1a1f, #2a2a35) !important;
-        border-radius: 15px !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         transform: scale(0.95);
         animation: modalEnter 0.3s ease-out forwards;
-        max-width: 600px !important;
+        max-width: 450px !important;
         width: 90% !important;
     }
 
     @keyframes modalEnter {
-        100% {
-            transform: scale(1);
-            opacity: 1;
-        }
+        100% { transform: scale(1); opacity: 1; }
     }
 
     .modal__title {
-        font-size: 24px !important;
-        color: #fff !important;
-        text-align: center !important;
-        padding: 25px 30px !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.5px;
-        background: linear-gradient(to right, #00b4d8, #0077b6) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
+        font-size: 20px !important;
+        padding: 15px 20px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.3px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
     .modal__body {
-        padding: 25px 30px !important;
+        padding: 15px 20px !important;
     }
 
     .broadcast__text {
-        font-family: 'Roboto', sans-serif !important;
-        margin-bottom: 25px !important;
+        margin-bottom: 15px !important;
     }
 
     .broadcast__text span {
-        display: block !important;
-        margin-bottom: 12px !important;
-        font-size: 16px !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        padding: 12px 20px !important;
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 8px !important;
-        transition: all 0.3s ease;
-    }
-
-    .broadcast__text span:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        transform: translateX(5px);
+        margin-bottom: 8px !important;
+        font-size: 14px !important;
+        padding: 10px 15px !important;
     }
 
     .modal__footer {
-        display: flex !important;
-        gap: 15px !important;
-        padding: 20px 30px !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-        background: rgba(0, 0, 0, 0.15) !important;
+        gap: 10px !important;
+        padding: 15px 20px !important;
     }
 
     .modal__button {
-        flex: 1 !important;
-        padding: 14px 20px !important;
-        border-radius: 8px !important;
-        background: linear-gradient(145deg, #0077b6, #00b4d8) !important;
-        color: white !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.5px !important;
-        text-transform: uppercase !important;
-        transition: all 0.3s ease !important;
-        border: none !important;
-        cursor: pointer !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+        padding: 10px 15px !important;
+        font-size: 13px !important;
+        letter-spacing: 0.2px !important;
     }
 
-    /* Стиль для кнопки в фокусе (выделенной) */
     .modal__button.focus {
-        background: linear-gradient(145deg, #00b4d8, #0077b6) !important;
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5) !important;
-        transform: scale(1.05) !important;
-    }
-
-    .modal__button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3) !important;
+        transform: scale(1.03) !important;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
     }
 
     .broadcast__scan {
-        height: 8px !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        border-radius: 4px !important;
-        overflow: hidden !important;
-        margin: 20px 0 !important;
-        position: relative;
-    }
-
-    .broadcast__scan div {
-        height: 100% !important;
-        background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
-        width: 0;
-        border-radius: 4px !important;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: none; /* Убираем анимацию */
-    }
-
-    /* Progress Animation */
-    @keyframes scanProgress {
-        0% { width: 0; }
-        100% { width: 100%; }
+        height: 6px !important;
+        margin: 15px 0 !important;
     }
 </style>
 `;
-    
+ 
     // Добавляем стили в документ
     document.head.insertAdjacentHTML('beforeend', css);
 
