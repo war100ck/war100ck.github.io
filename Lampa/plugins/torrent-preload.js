@@ -1,5 +1,5 @@
 ;(function($, Lampa) {
-	/* Modern Modal Styling */
+/* Modern Modal Styling */
 .modal {
     background: rgba(0, 0, 0, 0.85) !important;
     backdrop-filter: blur(10px) !important;
@@ -114,7 +114,6 @@
     0% { width: 0; }
     100% { width: 100%; }
 }
-
 var css = `/* Modern Modal Styling */
     .modal { ... }
     ... 
