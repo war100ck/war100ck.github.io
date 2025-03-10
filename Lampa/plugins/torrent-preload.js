@@ -109,11 +109,11 @@
     height: 100% !important;
     background: linear-gradient(90deg, #00b4d8, #0077b6) !important;
     width: 0;
-    transition: width 0.5s ease-out;
     border-radius: 4px !important;
     position: absolute;
     left: 0;
     top: 0;
+    transition: none; /* Убираем анимацию */
 }
         /* Progress Animation */
         @keyframes scanProgress {
@@ -481,14 +481,17 @@
         network.silent(u.clearUrl + '&preload', play, play);
         network.timeout(2000);
 
-        var stat = function(data) {
+       var stat = function(data) {
     if (!player) return;
     if (data && data.Torrent) {
         var t = data.Torrent;
         var p = Math.floor((t.preloaded_bytes || 0) * 100 / (t.preload_size || 1));
         
-        // Обновление прогресс-бара
-        progressBar.css('width', p + '%');
+        // Фиксируем ширину, чтобы она не уменьшалась
+        var currentWidth = parseFloat(progressBar.css('width')) || 0;
+        if (p > currentWidth) {
+            progressBar.css('width', p + '%');
+        }
         
         peer.html(Lampa.Lang.translate('ts_preload_peers') + ': ' + 
             (t.active_peers || 0) + ' / ' + 
