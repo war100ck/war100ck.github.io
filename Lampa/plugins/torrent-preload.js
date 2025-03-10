@@ -1,76 +1,65 @@
 ;(function($, Lampa) {
     /* CSS стили */
     const css = `
-<style>
-    /* Modern Modal Styling */
-    .modal {
-        background: rgba(0, 0, 0, 0.85) !important;
-        backdrop-filter: blur(10px) !important;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        padding: 10px !important;
-    }
+    <style>
+        /* Компактный модальный стиль */
+        .modal {
+            background: rgba(0, 0, 0, 0.9) !important;
+            backdrop-filter: blur(5px) !important;
+            padding: 10px !important;
+        }
 
-    .modal__content {
-        background: linear-gradient(145deg, #1a1a1f, #2a2a35) !important;
-        border-radius: 12px !important;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        transform: scale(0.95);
-        animation: modalEnter 0.3s ease-out forwards;
-        max-width: 450px !important;
-        width: 90% !important;
-    }
+        .modal__content {
+            background: #1a1a1f !important;
+            border-radius: 10px !important;
+            max-width: 450px !important;
+            width: 80% !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }
 
-    @keyframes modalEnter {
-        100% { transform: scale(1); opacity: 1; }
-    }
+        .modal__title {
+            font-size: 18px !important;
+            padding: 15px 20px !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        }
 
-    .modal__title {
-        font-size: 20px !important;
-        padding: 15px 20px !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.3px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    }
+        .modal__body {
+            padding: 15px 20px !important;
+        }
 
-    .modal__body {
-        padding: 15px 20px !important;
-    }
+        .broadcast__text span {
+            font-size: 14px !important;
+            padding: 8px 12px !important;
+            margin-bottom: 8px !important;
+        }
 
-    .broadcast__text {
-        margin-bottom: 15px !important;
-    }
+        .modal__footer {
+            padding: 12px 15px !important;
+            gap: 10px !important;
+        }
 
-    .broadcast__text span {
-        margin-bottom: 8px !important;
-        font-size: 14px !important;
-        padding: 10px 15px !important;
-    }
+        .modal__button {
+            padding: 10px 15px !important;
+            font-size: 14px !important;
+            border-radius: 6px !important;
+        }
 
-    .modal__footer {
-        gap: 10px !important;
-        padding: 15px 20px !important;
-    }
+        .broadcast__scan {
+            height: 4px !important;
+            margin: 12px 0 !important;
+        }
 
-    .modal__button {
-        padding: 10px 15px !important;
-        font-size: 13px !important;
-        letter-spacing: 0.2px !important;
-    }
-
-    .modal__button.focus {
-        transform: scale(1.03) !important;
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
-    }
-
-    .broadcast__scan {
-        height: 6px !important;
-        margin: 15px 0 !important;
-    }
-</style>
-`;
+        /* Адаптивные медиа-запросы */
+        @media (min-width: 1920px) {
+            .modal__content {
+                max-width: 500px !important;
+            }
+            .modal__title {
+                font-size: 20px !important;
+            }
+        }
+    </style>
+    `;
  
     // Добавляем стили в документ
     document.head.insertAdjacentHTML('beforeend', css);
