@@ -1,81 +1,156 @@
 (function () {
     'use strict';
 
-    // ========== БЛОК ПОДАВЛЕНИЯ СТАНДАРТНОГО ЛОАДЕРА (САМЫЙ ПЕРВЫЙ) ==========
-    (function suppressDefaultLoader() {
-        // Функция немедленного уничтожения
-        const destroyDefaultLoader = () => {
-            try {
-                // 1. Удаляем стили стандартного лоадера
-                const stylesToRemove = ['lampa-loader-critical', 'lampa-loader-styles'];
-                stylesToRemove.forEach(id => {
-                    const style = document.getElementById(id);
-                    if (style) style.remove();
+    // ========== АГРЕССИВНОЕ ПОДАВЛЕНИЕ СТАНДАРТНОГО ЛОАДЕРА ==========
+    
+    // Функция немедленного удаления
+    const killDefaultLoaderNow = () => {
+        try {
+            // Удаляем стили
+            ['lampa-loader-critical', 'lampa-loader-styles', 'lampa-loader-animations'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            });
+            
+            // Удаляем все возможные контейнеры лоадера
+            const selectors = [
+                '.lampa-terminal-loader',
+                '.welcome',
+                '[class*="lampa-loader"]',
+                '[class*="terminal-loader"]',
+                '.lampa-preloader',
+                '.lampa-splash',
+                '[data-lampa-loader]'
+            ];
+            
+            selectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    if (el && el.parentNode) {
+                        el.style.display = 'none';
+                        el.style.opacity = '0';
+                        el.remove();
+                    }
                 });
-                
-                // 2. Удаляем DOM элементы стандартного лоадера
-                const selectors = ['.lampa-terminal-loader', '.welcome', '[class*="lampa-loader"]', '[class*="terminal-loader"]'];
-                selectors.forEach(selector => {
-                    const elements = document.querySelectorAll(selector);
-                    elements.forEach(el => {
-                        if (el && el.parentNode) el.remove();
-                    });
-                });
-                
-                // 3. Отключаем глобальные переменные Lampa лоадера
-                if (window.lampaTerminalLoader) {
-                    if (window.lampaTerminalLoader.destroy) window.lampaTerminalLoader.destroy();
-                    if (window.lampaTerminalLoader.cleanup) window.lampaTerminalLoader.cleanup();
-                    window.lampaTerminalLoader = null;
-                }
-                
-                // 4. Отключаем jQuery fadeout для welcome
-                if (typeof $ !== 'undefined' && $.fn && $.fn.fadeOut) {
-                    if (!window._originalFadeOut) {
-                        window._originalFadeOut = $.fn.fadeOut;
-                        $.fn.fadeOut = function() {
-                            if (this.hasClass && (this.hasClass('welcome') || this.hasClass('lampa-terminal-loader'))) {
-                                this.remove();
-                                return this;
-                            }
-                            return window._originalFadeOut.apply(this, arguments);
-                        };
+            });
+            
+            // Очищаем body от лишних классов
+            document.body.classList.remove('lampa-loading');
+            if (document.documentElement) {
+                document.documentElement.style.background = '#0a0a1a';
+            }
+            
+            console.log('[HoloLoader] Default loader killed');
+        } catch(e) {}
+    };
+    
+    // Создаём наблюдатель за DOM
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            // Проверяем добавленные узлы
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) { // Элемент
+                    // Если это стандартный лоадер - удаляем мгновенно
+                    if (node.classList && (
+                        node.classList.contains('lampa-terminal-loader') ||
+                        node.classList.contains('welcome') ||
+                        node.className.includes('lampa-loader')
+                    )) {
+                        console.log('[HoloLoader] Caught and destroyed default loader');
+                        node.remove();
                     }
                 }
-                
-                // 5. Отключаем Lampa.LoadingProgress если активен
-                if (typeof Lampa !== 'undefined' && Lampa.LoadingProgress) {
-                    if (Lampa.LoadingProgress.destroy) Lampa.LoadingProgress.destroy();
-                    if (Lampa.LoadingProgress.stop) Lampa.LoadingProgress.stop();
-                    // Переопределяем на пустышку
-                    Lampa.LoadingProgress = {
-                        step: function() {},
-                        destroy: function() {},
-                        stop: function() {}
-                    };
+            });
+            
+            // Проверяем изменения атрибутов
+            if (mutation.type === 'attributes' && mutation.target) {
+                if (mutation.target.classList && mutation.target.classList.contains('welcome')) {
+                    mutation.target.remove();
                 }
-                
-                console.log('[HoloLoader] Default loader destroyed');
-            } catch(e) {
-                console.warn('[HoloLoader] Suppression error:', e);
             }
-        };
-        
-        // Выполняем МГНОВЕННО
-        destroyDefaultLoader();
-        
-        // Выполняем при загрузке DOM
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', destroyDefaultLoader);
-        }
-        
-        // Выполняем несколько раз с задержкой для гарантии
-        const delays = [0, 50, 150, 300];
-        delays.forEach(delay => {
-            setTimeout(destroyDefaultLoader, delay);
         });
-    })();
-
+    });
+    
+    // Запускаем наблюдатель ДО загрузки DOM
+    if (document.documentElement) {
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'style']
+        });
+    }
+    
+    // Мгновенное удаление
+    killDefaultLoaderNow();
+    
+    // Повторяем удаление несколько раз
+    [10, 50, 100, 200, 500].forEach(delay => {
+        setTimeout(killDefaultLoaderNow, delay);
+    });
+    
+    // Перехватываем создание элементов через innerHTML
+    const originalInnerHTMLSetter = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
+    Object.defineProperty(Element.prototype, 'innerHTML', {
+        set: function(value) {
+            if (typeof value === 'string' && (
+                value.includes('lampa-terminal-loader') ||
+                value.includes('class="welcome"')
+            )) {
+                console.log('[HoloLoader] Blocked innerHTML with loader');
+                value = '<div style="display:none"></div>';
+            }
+            return originalInnerHTMLSetter.call(this, value);
+        }
+    });
+    
+    // Перехватываем appendChild
+    const originalAppendChild = Node.prototype.appendChild;
+    Node.prototype.appendChild = function(child) {
+        if (child.nodeType === 1 && child.classList && (
+            child.classList.contains('lampa-terminal-loader') ||
+            child.classList.contains('welcome')
+        )) {
+            console.log('[HoloLoader] Blocked appendChild of loader');
+            return child;
+        }
+        return originalAppendChild.call(this, child);
+    };
+    
+    // Перехватываем insertBefore
+    const originalInsertBefore = Node.prototype.insertBefore;
+    Node.prototype.insertBefore = function(newNode, referenceNode) {
+        if (newNode.nodeType === 1 && newNode.classList && (
+            newNode.classList.contains('lampa-terminal-loader') ||
+            newNode.classList.contains('welcome')
+        )) {
+            console.log('[HoloLoader] Blocked insertBefore of loader');
+            return newNode;
+        }
+        return originalInsertBefore.call(this, newNode, referenceNode);
+    };
+    
+    // Отключаем Lampa.LoadingProgress принудительно
+    const disableLampaLoader = setInterval(() => {
+        if (typeof Lampa !== 'undefined') {
+            if (Lampa.LoadingProgress) {
+                Lampa.LoadingProgress = {
+                    step: function() {},
+                    destroy: function() {},
+                    stop: function() {},
+                    start: function() {}
+                };
+            }
+            if (Lampa.Loader) {
+                Lampa.Loader.hide = function() {};
+                Lampa.Loader.show = function() {};
+                Lampa.Loader.destroy = function() {};
+            }
+            clearInterval(disableLampaLoader);
+        }
+    }, 10);
+    
+    // Основной код вашего лоадера
     if (window.holoLoaderActive) return;
     window.holoLoaderActive = true;
 
@@ -105,7 +180,6 @@
 
     const CONFIG = window.HOLO_LOADER_CONFIG || DEFAULT_CONFIG;
 
-    // Адаптация под motion preferences
     if (!CONFIG.reducedMotion && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
         CONFIG.reducedMotion = true;
         CONFIG.particles.count = 15;
@@ -121,26 +195,19 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(ellipse at center, #0a0a1a 0%, #020208 100%);
-            z-index: 99999;
+            z-index: 2147483647 !important;
             font-family: 'Share Tech Mono', 'Courier New', monospace;
             overflow: hidden;
             color: #0ff;
         }
 
-        /* Скан-линии */
         .holo-scanlines {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 255, 255, 0.03) 0px,
-                rgba(0, 255, 255, 0.03) 2px,
-                transparent 2px,
-                transparent 6px
-            );
+            background: repeating-linear-gradient(0deg, rgba(0,255,255,0.03) 0px, rgba(0,255,255,0.03) 2px, transparent 2px, transparent 6px);
             pointer-events: none;
             z-index: 1;
             animation: scanMove 8s linear infinite;
@@ -151,7 +218,6 @@
             100% { transform: translateY(100%); }
         }
 
-        /* Центральная голограмма */
         .holo-hologram {
             position: absolute;
             top: 50%;
@@ -173,16 +239,15 @@
             animation: ringFadeIn 1s ease-out forwards;
         }
 
-        .holo-ring-1 { width: 100%; height: 100%; border-width: 2px; border-color: #0ff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); animation-delay: 0.1s; }
-        .holo-ring-2 { width: 70%; height: 70%; border-width: 1px; border-color: #f0f; box-shadow: 0 0 15px rgba(255, 0, 255, 0.5); animation-delay: 0.3s; }
-        .holo-ring-3 { width: 40%; height: 40%; border-width: 1px; border-color: #ff0; box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); animation-delay: 0.5s; }
+        .holo-ring-1 { width: 100%; height: 100%; border-width: 2px; border-color: #0ff; box-shadow: 0 0 20px rgba(0,255,255,0.5); animation-delay: 0.1s; }
+        .holo-ring-2 { width: 70%; height: 70%; border-width: 1px; border-color: #f0f; box-shadow: 0 0 15px rgba(255,0,255,0.5); animation-delay: 0.3s; }
+        .holo-ring-3 { width: 40%; height: 40%; border-width: 1px; border-color: #ff0; box-shadow: 0 0 10px rgba(255,255,0,0.5); animation-delay: 0.5s; }
 
         @keyframes ringFadeIn {
             from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Центральный шар */
         .holo-core {
             position: absolute;
             top: 50%;
@@ -201,7 +266,6 @@
             50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
 
-        /* Прогресс-сегменты */
         .holo-progress-container {
             position: absolute;
             bottom: 20%;
@@ -215,12 +279,11 @@
         .holo-segment {
             width: 24px;
             height: 48px;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            background: rgba(0,255,255,0.1);
+            border: 1px solid rgba(0,255,255,0.3);
             border-radius: 4px;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
         .holo-segment-fill {
@@ -238,7 +301,6 @@
             box-shadow: 0 0 10px #0ff;
         }
 
-        /* Модули */
         .holo-modules {
             position: absolute;
             right: 5%;
@@ -273,7 +335,6 @@
             opacity: 1;
         }
 
-        /* Индикатор статуса */
         .holo-status {
             position: absolute;
             bottom: 5%;
@@ -293,7 +354,6 @@
             50% { opacity: 0.3; }
         }
 
-        /* Частицы */
         .holo-particles {
             position: absolute;
             top: 0;
@@ -314,23 +374,12 @@
         }
 
         @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) scale(1);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
         }
 
-        /* ACCESS GRANTED */
         .holo-access {
             position: absolute;
             top: 50%;
@@ -352,14 +401,12 @@
             opacity: 1;
         }
 
-        /* Fade out */
         .holo-datacenter.fade-out {
             opacity: 0;
             transition: opacity ${CONFIG.fadeOutDuration}ms ease;
             pointer-events: none;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .holo-progress-container { gap: 4px; bottom: 15%; }
             .holo-segment { width: 16px; height: 32px; }
@@ -368,7 +415,6 @@
         }
     `;
 
-    // HTML структура
     const HTML = `
         <div class="holo-datacenter">
             <div class="holo-scanlines"></div>
@@ -393,9 +439,7 @@
     let loader = {
         element: null,
         destroyed: false,
-        currentModule: 0,
         segments: [],
-        particles: [],
         animationId: null,
         rotation: 0,
         startTime: Date.now(),
@@ -409,7 +453,6 @@
     function createParticles() {
         const container = loader.element.querySelector('.holo-particles');
         if (!container) return;
-
         for (let i = 0; i < CONFIG.particles.count; i++) {
             const particle = document.createElement('div');
             particle.className = 'holo-particle';
@@ -426,7 +469,6 @@
     function createProgressSegments() {
         const container = loader.element.querySelector('.holo-progress-container');
         if (!container) return;
-
         for (let i = 0; i < CONFIG.progress.segmentCount; i++) {
             const segment = document.createElement('div');
             segment.className = 'holo-segment';
@@ -441,7 +483,6 @@
     function createModules() {
         const container = loader.element.querySelector('.holo-modules');
         if (!container) return;
-
         loader.modulesList = CONFIG.modules.map(name => {
             const div = document.createElement('div');
             div.className = 'holo-module';
@@ -454,15 +495,12 @@
     function updateProgress(percent) {
         if (!loader.segments.length) return;
         const activeCount = Math.floor((percent / 100) * loader.segments.length);
-        
         loader.segments.forEach((segment, idx) => {
             const isActive = idx < activeCount;
             const fillPercent = isActive ? 100 : 0;
-            
             if (segment.fill.style.height !== `${fillPercent}%`) {
                 segment.fill.style.height = `${fillPercent}%`;
             }
-            
             if (isActive && !segment.active) {
                 segment.active = true;
                 segment.element.classList.add('active');
@@ -484,9 +522,7 @@
 
     function animateHologram() {
         if (loader.destroyed || !loader.element) return;
-
         loader.rotation += CONFIG.hologram.rotationSpeed;
-        
         const rings = loader.element.querySelectorAll('.holo-ring');
         rings.forEach((ring, idx) => {
             const speed = (idx + 1) * 0.5;
@@ -494,7 +530,6 @@
             const scale = 1 + Math.sin(Date.now() * CONFIG.hologram.waveSpeed + idx) * 0.02;
             ring.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${scale})`;
         });
-
         loader.animationId = requestAnimationFrame(animateHologram);
     }
 
@@ -516,13 +551,10 @@
     function showAccessAndFadeOut() {
         const accessEl = loader.element?.querySelector('.holo-access');
         if (accessEl) accessEl.classList.add('show');
-
         setTimeout(() => {
             if (loader.element) {
                 loader.element.classList.add('fade-out');
-                setTimeout(() => {
-                    cleanup();
-                }, CONFIG.fadeOutDuration);
+                setTimeout(() => cleanup(), CONFIG.fadeOutDuration);
             }
         }, 800);
     }
@@ -532,102 +564,54 @@
             setTimeout(simulateLoading, 100);
             return;
         }
-        
         let step = 0;
         const totalSteps = loader.modulesList.length;
         const stepDuration = CONFIG.minDisplayTime / totalSteps;
-
         function nextStep() {
             if (loader.destroyed) return;
-
             if (step <= totalSteps) {
                 const percent = (step / totalSteps) * 100;
                 updateProgress(percent);
                 updateModules(step);
-                
-                const statusTexts = [
-                    '◢ ЗАПУСК ГОЛОГРАММЫ',
-                    '◣ КАЛИБРОВКА ДАТЧИКОВ',
-                    '◤ ЗАГРУЗКА МОДУЛЕЙ',
-                    '◥ АКТИВАЦИЯ ЯДРА',
-                    '✔ СИСТЕМА ГОТОВА'
-                ];
+                const statusTexts = ['◢ ЗАПУСК ГОЛОГРАММЫ', '◣ КАЛИБРОВКА ДАТЧИКОВ', '◤ ЗАГРУЗКА МОДУЛЕЙ', '◥ АКТИВАЦИЯ ЯДРА', '✔ СИСТЕМА ГОТОВА'];
                 const statusIdx = Math.min(Math.floor(step / (totalSteps / statusTexts.length)), statusTexts.length - 1);
                 updateStatusText(statusTexts[statusIdx]);
-
                 step++;
                 setTimeout(nextStep, stepDuration);
             } else {
-                const elapsed = Date.now() - loader.startTime;
-                const remaining = Math.max(0, CONFIG.minDisplayTime - elapsed);
-                
-                setTimeout(() => {
-                    if (!loader.destroyed) {
-                        showAccessAndFadeOut();
-                    }
-                }, remaining);
+                const remaining = Math.max(0, CONFIG.minDisplayTime - (Date.now() - loader.startTime));
+                setTimeout(() => { if (!loader.destroyed) showAccessAndFadeOut(); }, remaining);
             }
         }
-
         nextStep();
     }
 
     function hookToLampaIfNeeded() {
         if (typeof Lampa !== 'undefined') {
-            log('Lampa detected, integrating...');
-            
-            // Полностью перехватываем LoadingProgress
-            if (Lampa.LoadingProgress) {
-                const originalStep = Lampa.LoadingProgress.step;
-                Lampa.LoadingProgress.step = function(position) {
-                    // Обновляем прогресс холо-лоадера
-                    if (loader && !loader.destroyed) {
-                        const percent = (position / 5) * 100;
-                        updateProgress(percent);
-                        updateModules(position);
-                    }
-                    if (originalStep) return originalStep.apply(this, arguments);
-                };
-            }
-            
+            log('Lampa detected');
             if (Lampa.Listener) {
                 Lampa.Listener.follow('app', (e) => {
-                    if (e.type === 'ready' && !loader.destroyed) {
-                        log('Lampa ready event received');
-                        simulateLoading();
-                    }
+                    if (e.type === 'ready' && !loader.destroyed) simulateLoading();
                 });
             } else {
                 simulateLoading();
             }
         } else {
-            log('Lampa not found, using standalone mode');
             simulateLoading();
-            
             const checkInterval = setInterval(() => {
                 if (typeof Lampa !== 'undefined') {
                     clearInterval(checkInterval);
-                    log('Lampa appeared, sending ready event');
-                    if (Lampa.Listener) {
-                        Lampa.Listener.trigger('app', { type: 'ready' });
-                    }
+                    if (Lampa.Listener) Lampa.Listener.trigger('app', { type: 'ready' });
                 }
             }, 100);
         }
     }
 
     function cleanup() {
-        if (loader.animationId) {
-            cancelAnimationFrame(loader.animationId);
-        }
-        
-        if (loader.element && loader.element.parentNode) {
-            loader.element.parentNode.removeChild(loader.element);
-        }
-        
+        if (loader.animationId) cancelAnimationFrame(loader.animationId);
+        if (loader.element && loader.element.parentNode) loader.element.parentNode.removeChild(loader.element);
         const style = document.getElementById('holo-loader-styles');
         if (style) style.remove();
-        
         loader.destroyed = true;
         log('Cleanup complete');
     }
@@ -635,56 +619,41 @@
     function init() {
         log('Initializing HoloLoader...');
         
-        // Ещё раз убиваем стандартный лоадер перед инициализацией
-        const stylesToRemove = ['lampa-loader-critical', 'lampa-loader-styles'];
-        stylesToRemove.forEach(id => {
-            const style = document.getElementById(id);
-            if (style) style.remove();
-        });
+        // Последний раз убиваем стандартный лоадер
+        killDefaultLoaderNow();
         
-        // Добавляем стили
         const styleEl = document.createElement('style');
         styleEl.id = 'holo-loader-styles';
         styleEl.textContent = STYLES;
         document.head.appendChild(styleEl);
         
-        // Добавляем HTML
         const wrapper = document.createElement('div');
         wrapper.innerHTML = HTML;
         loader.element = wrapper.firstElementChild;
         
-        // Вставляем ПЕРВЫМ в body
         if (document.body.firstChild) {
             document.body.insertBefore(loader.element, document.body.firstChild);
         } else {
             document.body.appendChild(loader.element);
         }
         
-        // Инициализируем компоненты
         createParticles();
         createProgressSegments();
         createModules();
-        
-        // Запускаем анимацию
         animateHologram();
         updateTimeDisplay();
-        
-        // Интегрируемся с Lampa или запускаем свою логику
         hookToLampaIfNeeded();
         
-        log('HoloLoader ready, z-index: 99999');
+        log('HoloLoader ready');
     }
 
-    // Стартуем МГНОВЕННО, без ожидания DOM
-    if (document.readyState === 'loading') {
-        // Если DOM ещё грузится, ждём body
-        const waitForBody = setInterval(() => {
-            if (document.body) {
-                clearInterval(waitForBody);
-                init();
-            }
-        }, 5);
-    } else {
+    // Ждём body
+    if (document.body) {
         init();
+    } else {
+        document.addEventListener('DOMContentLoaded', init);
     }
+    
+    // Сохраняем ссылку на observer для возможности отключения
+    window.__holoLoaderObserver = observer;
 })();
