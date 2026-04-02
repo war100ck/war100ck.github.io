@@ -1,104 +1,6 @@
 (function () {
     'use strict';
 
-    // ========== ОЖИДАНИЕ ПОЛНОЙ ЗАГРУЗКИ WEBVIEW ==========
-    const waitForWebView = () => {
-        return new Promise((resolve) => {
-            if (document.body && document.body.style) {
-                resolve();
-            } else {
-                document.addEventListener('DOMContentLoaded', resolve);
-            }
-        });
-    };
-
-    // ========== СКРЫВАЕМ НАТИВНЫЙ LOTTIE ЛОАДЕР ==========
-    const hideNativeLottieLoader = () => {
-        // Добавляем стили для скрытия Lottie-анимации
-        const style = document.createElement('style');
-        style.id = 'holo-hide-native';
-        style.textContent = `
-            /* Скрываем Lottie-анимацию Lampa */
-            [id*="lt_jarvis"],
-            [class*="lottie"],
-            .lottie-animation,
-            .native-loader,
-            [class*="LottieAnimationView"],
-            div[class*="animation"],
-            .welcome {
-                display: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-                pointer-events: none !important;
-                animation: none !important;
-                z-index: -1 !important;
-            }
-            
-            /* Очищаем фон body */
-            body {
-                background: #0a0a1a !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: hidden !important;
-            }
-            
-            /* Блокируем скролл */
-            html {
-                overflow: hidden !important;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Удаляем существующие элементы лоадера
-        const selectors = [
-            '[id*="lt_jarvis"]',
-            '[class*="lottie"]',
-            '.welcome',
-            '.lampa-loader'
-        ];
-        
-        selectors.forEach(selector => {
-            const elements = document.querySelectorAll(selector);
-            elements.forEach(el => {
-                if (el && el.parentNode) {
-                    el.remove();
-                }
-            });
-        });
-        
-        console.log('[HoloLoader] Native Lottie loader hidden');
-    };
-
-    // ========== ПОДАВЛЕНИЕ LAMPA LOADING PROGRESS ==========
-    const disableLampaLoadingProgress = () => {
-        if (typeof Lampa !== 'undefined') {
-            if (Lampa.LoadingProgress) {
-                Lampa.LoadingProgress = {
-                    step: function() {},
-                    destroy: function() {},
-                    stop: function() {},
-                    start: function() {}
-                };
-            }
-            if (Lampa.Loader) {
-                Lampa.Loader.hide = function() {};
-                Lampa.Loader.show = function() {};
-                Lampa.Loader.destroy = function() {};
-            }
-            console.log('[HoloLoader] Lampa LoadingProgress disabled');
-        }
-    };
-
-    // Запускаем подавление сразу
-    hideNativeLottieLoader();
-    disableLampaLoadingProgress();
-    
-    // Повторяем через интервал (на случай если лоадер появится позже)
-    setInterval(() => {
-        hideNativeLottieLoader();
-    }, 100);
-    
-    // Основной код лоадера
     if (window.holoLoaderActive) return;
     window.holoLoaderActive = true;
 
@@ -120,12 +22,8 @@
             colors: ['#00f2ff', '#ff00f2', '#f2ff00', '#00ffaa']
         },
         modules: [
-            'Квантовая энтропия',
-            'Голографическая память',
-            'Нейронный интерфейс',
-            'Пространственный модуль',
-            'Временная синхронизация',
-            'Энергоблок'
+            'Квантовая энтропия', 'Голографическая память', 'Нейронный интерфейс',
+            'Пространственный модуль', 'Временная синхронизация', 'Энергоблок'
         ],
         reducedMotion: false
     };
@@ -133,7 +31,7 @@
     const CONFIG = window.HOLO_LOADER_CONFIG || DEFAULT_CONFIG;
 
     // Адаптация под motion preferences
-    if (!CONFIG.reducedMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!CONFIG.reducedMotion && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
         CONFIG.reducedMotion = true;
         CONFIG.particles.count = 15;
         CONFIG.hologram.rotationSpeed = 0.002;
@@ -148,15 +46,13 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(ellipse at center, #0a0a1a 0%, #020208 100%);
-            z-index: 2147483647 !important;
+            z-index: 9999;
             font-family: 'Share Tech Mono', 'Courier New', monospace;
             overflow: hidden;
             color: #0ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
+        /* Скан-линии */
         .holo-scanlines {
             position: absolute;
             top: 0;
@@ -180,6 +76,7 @@
             100% { transform: translateY(100%); }
         }
 
+        /* Центральная голограмма */
         .holo-hologram {
             position: absolute;
             top: 50%;
@@ -201,42 +98,16 @@
             animation: ringFadeIn 1s ease-out forwards;
         }
 
-        .holo-ring-1 {
-            width: 100%;
-            height: 100%;
-            border-width: 2px;
-            border-color: #0ff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-            animation-delay: 0.1s;
-        }
-        .holo-ring-2 {
-            width: 70%;
-            height: 70%;
-            border-width: 1px;
-            border-color: #f0f;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-            animation-delay: 0.3s;
-        }
-        .holo-ring-3 {
-            width: 40%;
-            height: 40%;
-            border-width: 1px;
-            border-color: #ff0;
-            box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-            animation-delay: 0.5s;
-        }
+        .holo-ring-1 { width: 100%; height: 100%; border-width: 2px; border-color: #0ff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); animation-delay: 0.1s; }
+        .holo-ring-2 { width: 70%; height: 70%; border-width: 1px; border-color: #f0f; box-shadow: 0 0 15px rgba(255, 0, 255, 0.5); animation-delay: 0.3s; }
+        .holo-ring-3 { width: 40%; height: 40%; border-width: 1px; border-color: #ff0; box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); animation-delay: 0.5s; }
 
         @keyframes ringFadeIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
+        /* Центральный шар */
         .holo-core {
             position: absolute;
             top: 50%;
@@ -251,16 +122,11 @@
         }
 
         @keyframes corePulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 1;
-            }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
         }
 
+        /* Прогресс-сегменты */
         .holo-progress-container {
             position: absolute;
             bottom: 20%;
@@ -297,6 +163,7 @@
             box-shadow: 0 0 10px #0ff;
         }
 
+        /* Модули */
         .holo-modules {
             position: absolute;
             right: 5%;
@@ -331,6 +198,7 @@
             opacity: 1;
         }
 
+        /* Индикатор статуса */
         .holo-status {
             position: absolute;
             bottom: 5%;
@@ -350,6 +218,7 @@
             50% { opacity: 0.3; }
         }
 
+        /* Частицы */
         .holo-particles {
             position: absolute;
             top: 0;
@@ -386,6 +255,7 @@
             }
         }
 
+        /* ACCESS GRANTED */
         .holo-access {
             position: absolute;
             top: 50%;
@@ -407,34 +277,23 @@
             opacity: 1;
         }
 
+        /* Fade out */
         .holo-datacenter.fade-out {
             opacity: 0;
             transition: opacity ${CONFIG.fadeOutDuration}ms ease;
             pointer-events: none;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .holo-progress-container {
-                gap: 4px;
-                bottom: 15%;
-            }
-            .holo-segment {
-                width: 16px;
-                height: 32px;
-            }
-            .holo-modules {
-                top: auto;
-                bottom: 15%;
-                right: 5%;
-                transform: none;
-            }
-            .holo-module {
-                font-size: 8px;
-                margin: 6px 0;
-            }
+            .holo-progress-container { gap: 4px; bottom: 15%; }
+            .holo-segment { width: 16px; height: 32px; }
+            .holo-modules { top: auto; bottom: 15%; right: 5%; transform: none; }
+            .holo-module { font-size: 8px; margin: 6px 0; }
         }
     `;
 
+    // HTML структура
     const HTML = `
         <div class="holo-datacenter">
             <div class="holo-scanlines"></div>
@@ -449,7 +308,7 @@
             <div class="holo-modules"></div>
             <div class="holo-status">
                 <div class="holo-status-text">⟳ СИСТЕМА КАЛИБРУЕТСЯ</div>
-                <div class="holo-status-time"></div>
+                <div class="holo-status-time" style="font-size:10px;opacity:0.5;"></div>
             </div>
             <div class="holo-access">ДОСТУП РАЗРЕШЁН</div>
         </div>
@@ -459,7 +318,9 @@
     let loader = {
         element: null,
         destroyed: false,
+        currentModule: 0,
         segments: [],
+        particles: [],
         animationId: null,
         rotation: 0,
         startTime: Date.now(),
@@ -498,11 +359,7 @@
             fill.className = 'holo-segment-fill';
             segment.appendChild(fill);
             container.appendChild(segment);
-            loader.segments.push({
-                element: segment,
-                fill: fill,
-                active: false
-            });
+            loader.segments.push({ element: segment, fill: fill, active: false });
         }
     }
 
@@ -520,17 +377,16 @@
     }
 
     function updateProgress(percent) {
-        if (!loader.segments.length) return;
         const activeCount = Math.floor((percent / 100) * loader.segments.length);
-
+        
         loader.segments.forEach((segment, idx) => {
             const isActive = idx < activeCount;
             const fillPercent = isActive ? 100 : 0;
-
+            
             if (segment.fill.style.height !== `${fillPercent}%`) {
                 segment.fill.style.height = `${fillPercent}%`;
             }
-
+            
             if (isActive && !segment.active) {
                 segment.active = true;
                 segment.element.classList.add('active');
@@ -542,9 +398,9 @@
     }
 
     function updateModules(step) {
-        if (!loader.modulesList.length) return;
+        // step от 0 до modules.length
         for (let i = 0; i < Math.min(step, loader.modulesList.length); i++) {
-            if (loader.modulesList[i] && !loader.modulesList[i].classList.contains('loaded')) {
+            if (!loader.modulesList[i].classList.contains('loaded')) {
                 loader.modulesList[i].classList.add('loaded');
             }
         }
@@ -554,7 +410,7 @@
         if (loader.destroyed || !loader.element) return;
 
         loader.rotation += CONFIG.hologram.rotationSpeed;
-
+        
         const rings = loader.element.querySelectorAll('.holo-ring');
         rings.forEach((ring, idx) => {
             const speed = (idx + 1) * 0.5;
@@ -572,33 +428,29 @@
     }
 
     function updateTimeDisplay() {
-        if (loader.destroyed) return;
         const timeEl = loader.element?.querySelector('.holo-status-time');
         if (timeEl) {
             const elapsed = Math.floor((Date.now() - loader.startTime) / 1000);
             timeEl.textContent = `UPTIME: ${elapsed}s`;
         }
-        setTimeout(() => updateTimeDisplay(), 1000);
+        if (!loader.destroyed) setTimeout(() => updateTimeDisplay(), 1000);
     }
 
     function showAccessAndFadeOut() {
-        const accessEl = loader.element?.querySelector('.holo-access');
-        if (accessEl) accessEl.classList.add('show');
+        const accessEl = loader.element.querySelector('.holo-access');
+        accessEl.classList.add('show');
 
         setTimeout(() => {
             if (loader.element) {
                 loader.element.classList.add('fade-out');
-                setTimeout(() => cleanup(), CONFIG.fadeOutDuration);
+                setTimeout(() => {
+                    cleanup();
+                }, CONFIG.fadeOutDuration);
             }
         }, 800);
     }
 
     function simulateLoading() {
-        if (!loader.modulesList.length) {
-            setTimeout(simulateLoading, 100);
-            return;
-        }
-
         let step = 0;
         const totalSteps = loader.modulesList.length;
         const stepDuration = CONFIG.minDisplayTime / totalSteps;
@@ -610,7 +462,7 @@
                 const percent = (step / totalSteps) * 100;
                 updateProgress(percent);
                 updateModules(step);
-
+                
                 const statusTexts = [
                     '◢ ЗАПУСК ГОЛОГРАММЫ',
                     '◣ КАЛИБРОВКА ДАТЧИКОВ',
@@ -624,9 +476,10 @@
                 step++;
                 setTimeout(nextStep, stepDuration);
             } else {
+                // Загрузка завершена
                 const elapsed = Date.now() - loader.startTime;
                 const remaining = Math.max(0, CONFIG.minDisplayTime - elapsed);
-
+                
                 setTimeout(() => {
                     if (!loader.destroyed) {
                         showAccessAndFadeOut();
@@ -638,10 +491,9 @@
         nextStep();
     }
 
-    function hookToLampa() {
+    function hookToLampaIfNeeded() {
         if (typeof Lampa !== 'undefined') {
             log('Lampa detected, integrating...');
-
             if (Lampa.Listener) {
                 Lampa.Listener.follow('app', (e) => {
                     if (e.type === 'ready' && !loader.destroyed) {
@@ -650,20 +502,21 @@
                     }
                 });
             } else {
+                // Если нет Lampa, просто запускаем анимацию
                 simulateLoading();
             }
         } else {
+            // Нет Lampa - запускаем свою логику
             log('Lampa not found, using standalone mode');
             simulateLoading();
-
+            
+            // Проверяем появление Lampa с интервалом
             const checkInterval = setInterval(() => {
                 if (typeof Lampa !== 'undefined') {
                     clearInterval(checkInterval);
                     log('Lampa appeared, sending ready event');
                     if (Lampa.Listener) {
-                        Lampa.Listener.trigger('app', {
-                            type: 'ready'
-                        });
+                        Lampa.Listener.trigger('app', { type: 'ready' });
                     }
                 }
             }, 100);
@@ -674,59 +527,50 @@
         if (loader.animationId) {
             cancelAnimationFrame(loader.animationId);
         }
-
+        
         if (loader.element && loader.element.parentNode) {
             loader.element.parentNode.removeChild(loader.element);
         }
-
+        
         const style = document.getElementById('holo-loader-styles');
         if (style) style.remove();
-
+        
         loader.destroyed = true;
         log('Cleanup complete');
     }
 
     function init() {
         log('Initializing HoloLoader...');
-
-        // Ещё раз скрываем нативный лоадер
-        hideNativeLottieLoader();
-
+        
         // Добавляем стили
         const styleEl = document.createElement('style');
         styleEl.id = 'holo-loader-styles';
         styleEl.textContent = STYLES;
         document.head.appendChild(styleEl);
-
+        
         // Добавляем HTML
         const wrapper = document.createElement('div');
         wrapper.innerHTML = HTML;
         loader.element = wrapper.firstElementChild;
-
-        // Вставляем в body
-        if (document.body.firstChild) {
-            document.body.insertBefore(loader.element, document.body.firstChild);
-        } else {
-            document.body.appendChild(loader.element);
-        }
-
+        document.body.appendChild(loader.element);
+        
         // Инициализируем компоненты
         createParticles();
         createProgressSegments();
         createModules();
-
+        
         // Запускаем анимацию
         animateHologram();
         updateTimeDisplay();
-
-        // Интегрируемся с Lampa
-        hookToLampa();
-
-        log('HoloLoader ready');
+        
+        // Интегрируемся с Lampa или запускаем свою логику
+        hookToLampaIfNeeded();
     }
 
-    // Запускаем после загрузки WebView
-    waitForWebView().then(() => {
+    // Стартуем после загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
         init();
-    });
+    }
 })();
